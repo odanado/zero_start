@@ -7,7 +7,7 @@ import eslint from 'gulp-eslint';
 import webpack from 'webpack-stream';
 import mocha from 'gulp-mocha';
 import flow from 'gulp-flowtype';
-import ghPages from 'gulp-gh-pages'
+import ghPages from 'gulp-gh-pages';
 import webpackConfig from './webpack.config.babel';
 
 const paths = {
@@ -68,10 +68,10 @@ gulp.task('test', ['build'], () =>
         .pipe(mocha()),
 );
 
-gulp.task('deploy', function () {
-    return gulp.src('./dist/**/*')
-        .pipe(ghPages());
-});
+gulp.task('deploy', () =>
+    gulp.src('./dist/**/*')
+        .pipe(ghPages()),
+);
 
 gulp.task('watch', () => {
     gulp.watch(paths.allSrcJs, ['main']);
