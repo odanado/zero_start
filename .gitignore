@@ -3,6 +3,8 @@ yarn-error.log
 /lib/
 /dist/client-bundle.js*
 
+.publish/
+
 # Logs
 logs
 *.log
