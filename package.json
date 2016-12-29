@@ -67,6 +67,7 @@
         "babel-loader": "^6.2.10",
         "babel-preset-flow": "^1.0.0",
         "babel-preset-latest": "^6.16.0",
+        "babel-preset-react": "^6.16.0",
         "chai": "^3.5.0",
         "coveralls": "^2.11.15",
         "del": "^2.2.2",
