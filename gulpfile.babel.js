@@ -6,10 +6,13 @@ import del from 'del';
 import eslint from 'gulp-eslint';
 import webpack from 'webpack-stream';
 import mocha from 'gulp-mocha';
-import istanbul from 'gulp-istanbul';
+import istanbul from 'gulp-babel-istanbul';
 import coveralls from 'gulp-coveralls';
 import flow from 'gulp-flowtype';
 import ghPages from 'gulp-gh-pages';
+import sourcemaps from 'gulp-sourcemaps';
+import remapIstanbul from 'remap-istanbul/lib/gulpRemapIstanbul';
+import injectModules from 'gulp-inject-modules';
 import webpackConfig from './webpack.config.babel';
 
 const paths = {
@@ -44,7 +47,9 @@ gulp.task('clean', () => del([
 
 gulp.task('build', ['lint', 'clean'], () =>
     gulp.src(paths.allSrcJs)
+        .pipe(sourcemaps.init())
         .pipe(babel())
+        .pipe(sourcemaps.write('../maps', { includeContent: false, sourceRoot: '../src' }))
         .pipe(gulp.dest(paths.libDir)),
 );
 
@@ -66,7 +71,7 @@ gulp.task('fix-lint', () =>
 );
 
 gulp.task('pre-test', () =>
-    gulp.src(['routes/*.js'])
+    gulp.src('lib/**/*.js')
         // Covering files
         .pipe(istanbul())
         // Force `require` to return covered files
@@ -81,7 +86,34 @@ gulp.task('test', ['build', 'pre-test'], () =>
         .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } })),
 );
 
-gulp.task('coveralls', ['test'], () =>
+gulp.task('remap-istanbul', ['test'], () =>
+    gulp.src('coverage/coverage-final.json')
+        .pipe(remapIstanbul({
+            basePath: 'maps/',
+            reports: {
+                json: 'coverage/coverage.json',
+                html: 'coverage/lcov-report',
+                lcovonly: 'coverage/lcov.info',
+            },
+        })),
+);
+
+gulp.task('coverage', ['build'], (cb) => {
+    gulp.src('src/**/*.js')
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire()) // or you could use .pipe(injectModules())
+        .on('finish', () => {
+            gulp.src('test/**/*.js')
+                .pipe(babel())
+                .pipe(injectModules())
+                .pipe(mocha())
+                .pipe(istanbul.writeReports())
+                .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
+                .on('end', cb);
+        });
+});
+
+gulp.task('coveralls', ['coverage'], () =>
     gulp.src('./coverage/lcov.info')
         .pipe(coveralls()),
 );

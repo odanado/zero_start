@@ -7,6 +7,7 @@
         "start": "gulp",
         "fix": "gulp fix-lint",
         "test": "gulp test",
+        "coveralls": "gulp coveralls",
         "deploy": "gulp deploy"
     },
     "babel": {
@@ -65,6 +66,7 @@
     "devDependencies": {
         "babel-eslint": "^7.1.1",
         "babel-loader": "^6.2.10",
+        "babel-plugin-istanbul": "^3.0.0",
         "babel-preset-flow": "^1.0.0",
         "babel-preset-latest": "^6.16.0",
         "babel-preset-react": "^6.16.0",
@@ -79,15 +81,19 @@
         "eslint-plugin-react": "^6.8.0",
         "gulp": "^3.9.1",
         "gulp-babel": "^6.1.2",
+        "gulp-babel-istanbul": "^1.5.0",
         "gulp-coveralls": "^0.1.4",
         "gulp-eslint": "^3.0.1",
         "gulp-flowtype": "^1.0.0",
         "gulp-gh-pages": "^0.5.4",
+        "gulp-inject-modules": "^1.0.0",
         "gulp-istanbul": "^1.1.1",
         "gulp-mocha": "^3.0.1",
+        "gulp-sourcemaps": "^1.9.1",
         "istanbul": "^0.4.5",
         "mocha": "^3.2.0",
         "mocha-lcov-reporter": "^1.2.0",
+        "remap-istanbul": "^0.8.4",
         "sinon": "^1.17.6",
         "sinon-chai": "^2.8.0",
         "webpack-stream": "^3.2.0"
