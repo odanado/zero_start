@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+    - "7"
+    - "6"
+    - "4"
+
+sudo: false
+
+script:
+    - yarn run test
+after_success:
+    - yarn run coveralls
+
+cache:
+    yarn: true
+    directories:
+        - node_modules
