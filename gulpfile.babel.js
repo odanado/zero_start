@@ -20,7 +20,7 @@ const paths = {
     clientBundle: 'dist/client-bundle.js?(.map)',
     libDir: 'lib',
     distDir: 'dist',
-    allLibTests: 'lib/test/**/*.js',
+    allLibTests: 'test/**/*.js',
 };
 
 gulp.task('lint', () =>
