@@ -6,6 +6,8 @@ import del from 'del';
 import eslint from 'gulp-eslint';
 import webpack from 'webpack-stream';
 import mocha from 'gulp-mocha';
+import istanbul from 'gulp-istanbul';
+import coveralls from 'gulp-coveralls';
 import flow from 'gulp-flowtype';
 import ghPages from 'gulp-gh-pages';
 import webpackConfig from './webpack.config.babel';
@@ -63,9 +65,25 @@ gulp.task('fix-lint', () =>
         .pipe(gulp.dest('.')),
 );
 
-gulp.task('test', ['build'], () =>
+gulp.task('pre-test', () =>
+    gulp.src(['routes/*.js'])
+        // Covering files
+        .pipe(istanbul())
+        // Force `require` to return covered files
+        .pipe(istanbul.hookRequire()),
+);
+
+gulp.task('test', ['build', 'pre-test'], () =>
     gulp.src(paths.allLibTests)
-        .pipe(mocha()),
+        .pipe(mocha())
+        .pipe(istanbul.writeReports())
+        // Enforce a coverage of at least 90%
+        .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } })),
+);
+
+gulp.task('coveralls', ['test'], () =>
+    gulp.src('./coverage/lcov.info')
+        .pipe(coveralls()),
 );
 
 gulp.task('deploy', () =>
