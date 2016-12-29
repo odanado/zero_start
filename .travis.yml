@@ -8,7 +8,7 @@ node_js:
 sudo: false
 
 script:
-    - yarn run test
+    - yarn run coverage
 after_success:
     - yarn run coveralls
 

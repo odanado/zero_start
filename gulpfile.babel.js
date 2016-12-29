@@ -113,7 +113,7 @@ gulp.task('coverage', ['build'], (cb) => {
         });
 });
 
-gulp.task('coveralls', ['coverage'], () =>
+gulp.task('coveralls', () =>
     gulp.src('./coverage/lcov.info')
         .pipe(coveralls()),
 );

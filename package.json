@@ -7,6 +7,7 @@
         "start": "gulp",
         "fix": "gulp fix-lint",
         "test": "gulp test",
+        "coverage": "gulp coverage",
         "coveralls": "gulp coveralls",
         "deploy": "gulp deploy"
     },
