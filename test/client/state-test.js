@@ -5,8 +5,8 @@ import { createStore } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { should } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import dogReducer from '../../client/reducers/dog-reducer';
-import { makeBark } from '../../client/actions/dog-actions';
+import dogReducer from '../../src/client/reducers/dog-reducer';
+import { makeBark } from '../../src/client/actions/dog-actions';
 
 should();
 let store;
